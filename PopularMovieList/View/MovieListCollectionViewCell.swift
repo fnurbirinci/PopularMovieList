@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
+
 
 final class MovieListCollectionViewCell: UICollectionViewCell {
     
@@ -14,27 +16,20 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let cellIdentifier = "MovieListCollectionViewCell"
     
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+     private var imageView = UIImageView()
+
     
-    let nameLabel: UILabel = {
-        let nameLabel = UILabel()
-        nameLabel.textColor = .black
-        nameLabel.font = .systemFont(ofSize: 18, weight: .bold)
-        return nameLabel
-    }()
-    
-    
+     private var titleLabel = UILabel()
+        
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondarySystemBackground
+        contentView.backgroundColor = .blue
         contentView.addSubview(imageView)
-        contentView.addSubview(nameLabel)
-        addConstraints()
+        contentView.addSubview(titleLabel)
+        configure()
+        
+
     }
     
     required init?(coder: NSCoder) {
@@ -42,29 +37,36 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Methods
-    func addConstraints() {
+    func configure() {
+        titleLabel.textColor = .black
+        titleLabel.font = .systemFont(ofSize: 13, weight: .medium, width: .condensed)
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
+        titleLabel.sizeToFit()
+        titleLabel.frame = .zero
         imageView.snp.makeConstraints { view in
-            view.height.equalTo(50)
-            view.top.equalTo(contentView.snp.bottom).offset(20)
-            view.left.equalTo(contentView.snp.left).offset(20)
+            view.edges.equalTo(contentView)
         }
         
-        nameLabel.snp.makeConstraints { view in
+        titleLabel.snp.makeConstraints { view in
             view.height.equalTo(50)
-            view.left.equalTo(imageView.snp.left)
-            view.top.equalTo(imageView.snp.bottom).offset(20)
+            view.width.equalTo(contentView)
+            view.left.equalTo(contentView)
+            view.top.equalTo(contentView.snp.bottom)
         }
         
-        imageView.backgroundColor = .green
-        nameLabel.backgroundColor = .red
+        titleLabel.backgroundColor = .clear
+
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = nil
-        nameLabel.text = nil
+    func setupCell(viewmodel: MovieListCollectionViewViewModel) {
+        self.titleLabel.text = viewmodel.title
+        self.imageView.sd_setImage(with: viewmodel.imageUrl)
+        
     }
     
+    
+   
     
     
 }
