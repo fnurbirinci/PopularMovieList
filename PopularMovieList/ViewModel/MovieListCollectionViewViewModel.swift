@@ -12,7 +12,6 @@ class MovieListCollectionViewViewModel {
     var id: Int
     var title: String
     var imageUrl: URL?
-    let images = "/images"
     
      init(movie: Movies) {
         self.id = movie.id
