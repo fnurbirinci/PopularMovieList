@@ -19,6 +19,8 @@
 		4E4744542ABADB8000DBF1AE /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4744532ABADB8000DBF1AE /* Observable.swift */; };
 		4E4744562ABADBBE00DBF1AE /* MovieListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4744552ABADBBE00DBF1AE /* MovieListService.swift */; };
 		4E4744582ABADBC600DBF1AE /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4744572ABADBC600DBF1AE /* APICaller.swift */; };
+		4E9246602AC1925C009CDDFF /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E92465F2AC1925C009CDDFF /* MovieDetailsViewController.swift */; };
+		4E9246622AC1958C009CDDFF /* MovieDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9246612AC1958C009CDDFF /* MovieDetailsViewModel.swift */; };
 		4EC6EE552ABE1D82007A82D1 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 4EC6EE542ABE1D82007A82D1 /* SDWebImage */; };
 		4EC6EE572ABE1F29007A82D1 /* MovieListCollectionViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EE562ABE1F29007A82D1 /* MovieListCollectionViewViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +40,8 @@
 		4E4744532ABADB8000DBF1AE /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		4E4744552ABADBBE00DBF1AE /* MovieListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieListService.swift; path = ../../../Fnur/PopularMovieList/PopularMovieList/Networking/MovieListService.swift; sourceTree = "<group>"; };
 		4E4744572ABADBC600DBF1AE /* APICaller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APICaller.swift; path = ../../../Fnur/PopularMovieList/PopularMovieList/Networking/APICaller.swift; sourceTree = "<group>"; };
+		4E92465F2AC1925C009CDDFF /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		4E9246612AC1958C009CDDFF /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
 		4EC6EE562ABE1F29007A82D1 /* MovieListCollectionViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCollectionViewViewModel.swift; sourceTree = "<group>"; };
 		7E38099D6E652D3696881C58 /* Pods-PopularMovieList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopularMovieList.debug.xcconfig"; path = "Target Support Files/Pods-PopularMovieList/Pods-PopularMovieList.debug.xcconfig"; sourceTree = "<group>"; };
 		E2B56C00C43D7E1D6E86903C /* Pods-PopularMovieList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopularMovieList.release.xcconfig"; path = "Target Support Files/Pods-PopularMovieList/Pods-PopularMovieList.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				4E4744432ABAD8CC00DBF1AE /* MovieListViewController.swift */,
+				4E92465F2AC1925C009CDDFF /* MovieDetailsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 			children = (
 				4E4744512ABADB4F00DBF1AE /* MovieListViewModel.swift */,
 				4EC6EE562ABE1F29007A82D1 /* MovieListCollectionViewViewModel.swift */,
+				4E9246612AC1958C009CDDFF /* MovieDetailsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -308,8 +314,10 @@
 				4E4744582ABADBC600DBF1AE /* APICaller.swift in Sources */,
 				4E4744442ABAD8CC00DBF1AE /* MovieListViewController.swift in Sources */,
 				4EC6EE572ABE1F29007A82D1 /* MovieListCollectionViewViewModel.swift in Sources */,
+				4E9246602AC1925C009CDDFF /* MovieDetailsViewController.swift in Sources */,
 				4E4744272ABAD6B200DBF1AE /* AppDelegate.swift in Sources */,
 				4E4744502ABADAFC00DBF1AE /* MovieListCollectionViewCell.swift in Sources */,
+				4E9246622AC1958C009CDDFF /* MovieDetailsViewModel.swift in Sources */,
 				4E4744542ABADB8000DBF1AE /* Observable.swift in Sources */,
 				4E4744292ABAD6B200DBF1AE /* SceneDelegate.swift in Sources */,
 				4E4744522ABADB4F00DBF1AE /* MovieListViewModel.swift in Sources */,

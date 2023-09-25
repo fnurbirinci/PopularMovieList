@@ -16,20 +16,18 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let cellIdentifier = "MovieListCollectionViewCell"
     
-     private var imageView = UIImageView()
-
+    private var imageView = UIImageView()
     
-     private var titleLabel = UILabel()
-        
+    private var titleLabel = UILabel()
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .white
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
         configure()
         
-
     }
     
     required init?(coder: NSCoder) {
@@ -39,24 +37,25 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
     // MARK: - Methods
     func configure() {
         titleLabel.textColor = .black
-        titleLabel.font = .systemFont(ofSize: 13, weight: .medium, width: .condensed)
+        titleLabel.font = .systemFont(ofSize: 14, weight: .medium, width: .condensed)
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         titleLabel.sizeToFit()
-        titleLabel.frame = .zero
+        titleLabel.adjustsFontSizeToFitWidth = true
+        
         imageView.snp.makeConstraints { view in
             view.edges.equalTo(contentView)
         }
         
         titleLabel.snp.makeConstraints { view in
-            view.height.equalTo(50)
-            view.width.equalTo(contentView)
-            view.left.equalTo(contentView)
-            view.top.equalTo(contentView.snp.bottom)
+            view.top.equalTo(contentView.snp.bottom).offset(5)
+            view.height.equalTo(30)
+            view.width.equalTo(100)
+            view.centerX.equalTo(contentView)
         }
         
         titleLabel.backgroundColor = .clear
-
+        
     }
     
     func setupCell(viewmodel: MovieListCollectionViewViewModel) {
@@ -64,10 +63,4 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
         self.imageView.sd_setImage(with: viewmodel.imageUrl)
         
     }
-    
-    
-   
-    
-    
 }
-
