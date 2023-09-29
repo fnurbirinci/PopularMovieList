@@ -8,5 +8,6 @@ target 'PopularMovieList' do
   # Pods for PopularMovieList
 
   pod 'SnapKit', '~> 5.6.0'
+  pod 'SDWebImage'
 
 end
