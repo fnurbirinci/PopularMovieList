@@ -74,7 +74,7 @@ final class MovieDetailsViewController: UIViewController {
         detailLabel.numberOfLines = 0
         detailLabel.adjustsFontSizeToFitWidth = true
         detailLabel.sizeToFit()
-        detailLabel.textAlignment = .center
+        detailLabel.textAlignment = .left
         detailLabel.lineBreakMode = .byTruncatingMiddle
         detailLabel.snp.makeConstraints { view in
             view.top.equalTo(dateLabel.snp.bottom).offset(30)
@@ -91,7 +91,6 @@ final class MovieDetailsViewController: UIViewController {
             view.height.equalTo(30)
         }
         
-        
     }
     
     func getMovieDetail() {
@@ -99,6 +98,7 @@ final class MovieDetailsViewController: UIViewController {
         dateLabel.text = viewModel.movieDate
         voteCountLabel.text = "Vote Count: \(viewModel.movieVote)"
         imageView.sd_setImage(with: viewModel.movieImage)
+        imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         detailLabel.text = "Overview\n\n\(viewModel.movieOverview)"
         
     }

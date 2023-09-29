@@ -14,17 +14,11 @@ final class MovieListViewController: UIViewController {
     private let titleLabel = UILabel()
     private let activityIndicator = UIActivityIndicatorView()
     private var cellDataSource: [MovieListCollectionViewViewModel] = []
-    private var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 80
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        return collectionView
-    }()
+    private var collectionView:UICollectionView!
     
     
     //MARK: - View Model
-    private var viewModel:MovieListViewModel = MovieListViewModel()
+    private var viewModel = MovieListViewModel()
     
     
     //MARK: - Load
@@ -48,6 +42,10 @@ final class MovieListViewController: UIViewController {
         self.view.backgroundColor = .white
         self.title = "Popular Movie List"
         
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 80
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
         collectionView.frame = view.bounds
         collectionView.delegate = self

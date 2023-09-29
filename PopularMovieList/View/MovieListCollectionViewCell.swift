@@ -37,7 +37,7 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
     // MARK: - Methods
     func configure() {
         titleLabel.textColor = .black
-        titleLabel.font = .systemFont(ofSize: 14, weight: .medium, width: .condensed)
+        titleLabel.font = .systemFont(ofSize: 14, weight: .medium, width: .standard)
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         titleLabel.sizeToFit()
@@ -49,7 +49,6 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
         
         titleLabel.snp.makeConstraints { view in
             view.top.equalTo(contentView.snp.bottom).offset(5)
-            view.height.equalTo(30)
             view.width.equalTo(100)
             view.centerX.equalTo(contentView)
         }
@@ -61,6 +60,7 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
     func setupCell(viewmodel: MovieListCollectionViewViewModel) {
         self.titleLabel.text = viewmodel.title
         self.imageView.sd_setImage(with: viewmodel.imageUrl)
+        self.imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
         
     }
 }
