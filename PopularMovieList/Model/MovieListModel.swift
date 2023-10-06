@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Popular Movie Model
 struct PopularMovieModel: Codable {
     let page: Int
-    let results: [Movies]
+    var results: [Movies]
     let totalPages, totalResults: Int
 
     enum CodingKeys: String, CodingKey {

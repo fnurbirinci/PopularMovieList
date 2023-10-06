@@ -15,7 +15,8 @@ final class MovieListViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView()
     private var cellDataSource: [MovieListCollectionViewViewModel] = []
     private var collectionView:UICollectionView!
-    
+    private var isLoadingData = false
+    private var currentPage = 1
     
     //MARK: - View Model
     private var viewModel = MovieListViewModel()
@@ -25,7 +26,6 @@ final class MovieListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        reloadCollectionView()
         configActivityIndicator()
         bindViewModel()
         
@@ -43,19 +43,19 @@ final class MovieListViewController: UIViewController {
         self.title = "Popular Movie List"
         
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 80
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
-        collectionView.frame = view.bounds
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(MovieListCollectionViewCell.self, forCellWithReuseIdentifier: MovieListCollectionViewCell.cellIdentifier)
-        view.addSubview(collectionView)
-        
-        collectionView.snp.makeConstraints { view in
-            view.left.right.equalToSuperview().inset(25)
-            view.height.equalToSuperview()
+           layout.scrollDirection = .vertical
+           layout.minimumLineSpacing = 80
+           collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+           collectionView.backgroundColor = .white
+           collectionView.delegate = self
+           collectionView.dataSource = self
+           collectionView.register(MovieListCollectionViewCell.self, forCellWithReuseIdentifier: MovieListCollectionViewCell.cellIdentifier)
+           view.addSubview(collectionView)
+           
+           collectionView.snp.makeConstraints { view in
+               view.top.equalToSuperview()
+               view.left.right.equalToSuperview().inset(25)
+               view.bottom.equalToSuperview()
         }
     }
     
@@ -137,4 +137,30 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
         let movieId = cellDataSource[indexPath.row].id
         self.openMovieDetail(movieId: movieId)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == cellDataSource.count - 1 && !isLoadingData {
+            isLoadingData = true
+            currentPage += 1
+            
+            viewModel.getMoreData(page: currentPage)
+            self.fetchDataCompletionHandler(success: isLoadingData)
+            }
+        }
+    
+    
+    func fetchDataCompletionHandler(success: Bool) {
+        DispatchQueue.main.async {
+            self.isLoadingData = false
+            
+            if success {
+                self.reloadCollectionView()
+            } else {
+                print("Failed to fetch data for page \(self.currentPage)")
+            }
+        }
+    }
+ 
+  
+    
 }

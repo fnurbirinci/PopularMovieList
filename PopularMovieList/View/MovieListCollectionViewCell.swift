@@ -64,3 +64,7 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
         
     }
 }
+
+
+
+
