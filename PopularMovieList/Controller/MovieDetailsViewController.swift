@@ -110,7 +110,7 @@ final class MovieDetailsViewController: UIViewController {
                 view.height.equalTo(30)
             }
         }
-    }
+    
     
     func getMovieDetail() {
         titleLabel.text = viewModel.movieTitle

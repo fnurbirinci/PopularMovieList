@@ -22,10 +22,10 @@ final class MovieListViewController: UIViewController {
     private var viewModel = MovieListViewModel()
     
     
-    //MARK: - Load
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
+        configureView()
         configActivityIndicator()
         bindViewModel()
         
@@ -38,31 +38,26 @@ final class MovieListViewController: UIViewController {
     
     
     //MARK: - Methods
-    private func configure() {
+    private func configureView() {
         self.view.backgroundColor = .white
         self.title = "Popular Movie List"
         
         let layout = UICollectionViewFlowLayout()
-           layout.scrollDirection = .vertical
-           layout.minimumLineSpacing = 80
-           collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-           collectionView.backgroundColor = .white
-           collectionView.delegate = self
-           collectionView.dataSource = self
-           collectionView.register(MovieListCollectionViewCell.self, forCellWithReuseIdentifier: MovieListCollectionViewCell.cellIdentifier)
-           view.addSubview(collectionView)
-           
-           collectionView.snp.makeConstraints { view in
-               view.top.equalToSuperview()
-               view.left.right.equalToSuperview().inset(25)
-               view.bottom.equalToSuperview()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 80
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(MovieListCollectionViewCell.self, forCellWithReuseIdentifier: MovieListCollectionViewCell.cellIdentifier)
+        view.addSubview(collectionView)
+        
+        collectionView.snp.makeConstraints { view in
+            view.top.equalToSuperview()
+            view.left.right.equalToSuperview().inset(25)
+            view.bottom.equalToSuperview()
         }
     }
-    
-    private func reloadCollectionView() {
-        self.collectionView.reloadData()
-    }
-    
     
     func configActivityIndicator() {
         view.addSubview(activityIndicator)
@@ -109,7 +104,11 @@ final class MovieListViewController: UIViewController {
             self.navigationController?.pushViewController(detailsViewController, animated: true)
         }
         activityIndicator.stopAnimating()
-
+        
+    }
+    
+    private func reloadCollectionView() {
+        self.collectionView.reloadData()
     }
 }
 
@@ -145,8 +144,8 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
             
             viewModel.getMoreData(page: currentPage)
             self.fetchDataCompletionHandler(success: isLoadingData)
-            }
         }
+    }
     
     
     func fetchDataCompletionHandler(success: Bool) {
@@ -160,7 +159,5 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
             }
         }
     }
- 
-  
     
 }

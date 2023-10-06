@@ -9,11 +9,12 @@ import Foundation
 
 final class MovieListViewModel {
     
-         let isLoading: Observable<Bool> = Observable(value: false)
-         let cellDataSource: Observable<[MovieListCollectionViewViewModel]> = Observable(value: [])
-         var dataSource: PopularMovieModel?
-        
+    //MARK: - Properties
+    let isLoading: Observable<Bool> = Observable(value: false)
+    let cellDataSource: Observable<[MovieListCollectionViewViewModel]> = Observable(value: [])
+    var dataSource: PopularMovieModel?
     
+    //MARK: - Methods
     func getData() {
         if isLoading.value ?? true {
             return
@@ -55,22 +56,22 @@ final class MovieListViewModel {
             }
         }
     }
+    
+    func mapCellData() {
+        self.cellDataSource.value = self.dataSource?.results.compactMap({MovieListCollectionViewViewModel(movie: $0)
+        })
         
-        func mapCellData() {
-            self.cellDataSource.value = self.dataSource?.results.compactMap({MovieListCollectionViewViewModel(movie: $0)
-            })
-            
-        }
-        
-        func getMovieTitle(_ movie: Movies) -> String {
-            return movie.title ?? ""
-        }
-        
-        func getMovie(with id: Int) -> Movies? {
-            guard let movie = dataSource?.results.first(where: {$0.id == id})
-            else { return nil }
-            return movie
-            
-        }
     }
+    
+    func getMovieTitle(_ movie: Movies) -> String {
+        return movie.title ?? ""
+    }
+    
+    func getMovie(with id: Int) -> Movies? {
+        guard let movie = dataSource?.results.first(where: {$0.id == id})
+        else { return nil }
+        return movie
+        
+    }
+}
 
