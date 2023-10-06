@@ -63,7 +63,7 @@ final class MovieListViewController: UIViewController {
     
     func configActivityIndicator() {
         view.addSubview(activityIndicator)
-        activityIndicator.style = .large
+        activityIndicator.style = .medium
         activityIndicator.color = .black
         activityIndicator.center = self.view.center
         activityIndicator.snp.makeConstraints { make in
