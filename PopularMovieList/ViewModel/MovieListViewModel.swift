@@ -11,11 +11,11 @@ final class MovieListViewModel {
     
     //MARK: - Properties
     let isLoading: Observable<Bool> = Observable(value: false)
-    let cellDataSource: Observable<[MovieListCollectionViewViewModel]> = Observable(value: [])
+    var cellDataSource: [MovieListCollectionViewViewModel] = []
     var dataSource: PopularMovieModel?
     
     //MARK: - Methods
-    func getData() {
+    func getData(completion: @escaping ((Bool) -> Void)) {
         if isLoading.value ?? true {
             return
         }
@@ -24,44 +24,73 @@ final class MovieListViewModel {
             self?.isLoading.value = false
             
             switch result {
-            case.success(let data):
+            case .success(let data):
                 self?.dataSource = data
-                self?.mapCellData()
-            case.failure(let error):
+                // Update the cellDataSource directly here
+                self?.handleMovies(data.results)
+                completion(true)
+//                self?.cellDataSource.value = data.results.compactMap({ MovieListCollectionViewViewModel(movie: $0) })
+            case .failure(let error):
                 print(error)
-                
+                completion(false)
             }
         }
     }
+
     
-    func getMoreData(page: Int) {
+    func getMoreData(page: Int, completion: @escaping (Bool) -> Void) {
         if isLoading.value ?? true {
             return
         }
         isLoading.value = true
+        
         APICaller.getMoreMovies(page: page) { [weak self] result in
-            self?.isLoading.value = false
+            guard let self = self else {
+                completion(false) 
+                return
+            }
+            
+            self.isLoading.value = false
             
             switch result {
             case .success(let data):
+                    self.dataSource = data
+                    self.handleMovies(data.results)
+                    completion(true)
                 
-                if var dataSource = self?.dataSource {
-                    // Append new data to the existing results array
-                    dataSource.results.append(contentsOf: data.results)
-                    self?.dataSource = dataSource
-                    self?.mapCellData()
-                }
             case .failure(let error):
                 print(error)
+                completion(false)
             }
         }
     }
     
-    func mapCellData() {
-        self.cellDataSource.value = self.dataSource?.results.compactMap({MovieListCollectionViewViewModel(movie: $0)
-        })
-        
+    func handleMovies(_ movies: [Movies]) {
+        for movie in movies {
+            let movieModel = Movies(adult: movie.adult,
+                                    backdropPath: movie.backdropPath,
+                                    genreIDS: movie.genreIDS,
+                                    id: movie.id,
+                                    originalLanguage: movie.originalLanguage,
+                                    originalTitle: movie.originalTitle,
+                                    overview: movie.overview,
+                                    popularity: movie.popularity,
+                                    posterPath: movie.posterPath,
+                                    releaseDate: movie.releaseDate,
+                                    title: movie.title,
+                                    video: movie.video,
+                                    voteAverage: movie.voteAverage,
+                                    voteCount: movie.voteCount)
+            let movieViewModel = MovieListCollectionViewViewModel(movie: movieModel)
+            cellDataSource.append(movieViewModel)
+        }
     }
+    
+    func mapCellData() -> [MovieListCollectionViewViewModel] {
+        return self.dataSource?.results.compactMap({ MovieListCollectionViewViewModel(movie: $0) }) ?? []
+    }
+
+        
     
     func getMovieTitle(_ movie: Movies) -> String {
         return movie.title ?? ""

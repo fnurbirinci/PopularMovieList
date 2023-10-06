@@ -13,7 +13,6 @@ final class MovieListViewController: UIViewController {
     //MARK: - Properties
     private let titleLabel = UILabel()
     private let activityIndicator = UIActivityIndicatorView()
-    private var cellDataSource: [MovieListCollectionViewViewModel] = []
     private var collectionView:UICollectionView!
     private var isLoadingData = false
     private var currentPage = 1
@@ -28,12 +27,15 @@ final class MovieListViewController: UIViewController {
         configureView()
         configActivityIndicator()
         bindViewModel()
+        if viewModel.cellDataSource.isEmpty {
+            viewModel.getData { [weak self] isSuccess in
+                guard let self = self else { return}
+                if isSuccess {
+                    self.reloadCollectionView()
+                }
+            }
+        }
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.getData()
     }
     
     
@@ -84,13 +86,6 @@ final class MovieListViewController: UIViewController {
                 }
             }
         }
-        viewModel.cellDataSource.bind { [weak self] movies in
-            guard let self = self,
-                  let movies = movies else { return }
-            
-            self.cellDataSource = movies
-            self.reloadCollectionView()
-        }
     }
     
     func openMovieDetail(movieId: Int) {
@@ -108,7 +103,9 @@ final class MovieListViewController: UIViewController {
     }
     
     private func reloadCollectionView() {
-        self.collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }
 
@@ -116,12 +113,12 @@ final class MovieListViewController: UIViewController {
 //MARK: - Collection View
 extension MovieListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellDataSource.count
+        return viewModel.cellDataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieListCollectionViewCell.cellIdentifier, for: indexPath) as! MovieListCollectionViewCell
-        let cellViewModel = self.cellDataSource[indexPath.row]
+        let cellViewModel = self.viewModel.cellDataSource[indexPath.row]
         cell.setupCell(viewmodel: cellViewModel)
         return cell
         
@@ -132,32 +129,50 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(cellDataSource[indexPath.row].title)
-        let movieId = cellDataSource[indexPath.row].id
+        print(viewModel.cellDataSource[indexPath.row].title)
+        let movieId = viewModel.cellDataSource[indexPath.row].id
         self.openMovieDetail(movieId: movieId)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == cellDataSource.count - 1 && !isLoadingData {
-            isLoadingData = true
-            currentPage += 1
+        if viewModel.cellDataSource.count == 20 * currentPage {
             
-            viewModel.getMoreData(page: currentPage)
-            self.fetchDataCompletionHandler(success: isLoadingData)
+            if indexPath.row == viewModel.cellDataSource.count - 1 {
+                currentPage += 1
+                
+                viewModel.getMoreData(page: currentPage) { [weak self] success in
+                    self?.fetchDataCompletionHandler(success: success)
+                }
+            }
         }
     }
     
     
     func fetchDataCompletionHandler(success: Bool) {
-        DispatchQueue.main.async {
             self.isLoadingData = false
             
             if success {
                 self.reloadCollectionView()
-            } else {
-                print("Failed to fetch data for page \(self.currentPage)")
             }
         }
     }
-    
-}
+
+
+
+
+
+//func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//    let lastItem = cellDataSource.count - 1
+//
+//    if indexPath.row == lastItem && !isLoadingData {
+//        if let totalPages = dataSource?.totalPages, currentPage < totalPages {
+//            // Load more data only if there are more pages to fetch
+//            currentPage += 1
+//            isLoadingData = true
+//
+//            viewModel.getMoreData(page: currentPage) { [weak self] success, newData in
+//                self?.fetchDataCompletionHandler(success: success, newData: newData)
+//            }
+//        }
+//    }
+//}

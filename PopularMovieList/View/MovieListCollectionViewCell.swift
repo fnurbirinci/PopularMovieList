@@ -37,12 +37,13 @@ final class MovieListCollectionViewCell: UICollectionViewCell {
         titleLabel.font = .systemFont(ofSize: 14, weight: .medium, width: .standard)
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
+        titleLabel.lineBreakMode = .byTruncatingMiddle
         titleLabel.sizeToFit()
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.backgroundColor = .clear
         titleLabel.snp.makeConstraints { view in
             view.top.equalTo(contentView.snp.bottom).offset(5)
-            view.width.equalTo(100)
+            view.width.equalTo(150)
             view.centerX.equalTo(contentView)
         }
         
